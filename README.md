@@ -50,9 +50,9 @@ poking at it, which is the reason it is code and not slides.
 
 | What | Where |
 | --- | --- |
-| Interactive lecture | <https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/> |
-| Printable handout | <https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/01_intro.pdf> |
-| Offline copy (ZIP) | <https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/01_intro-offline.zip> |
+| Interactive lecture | <https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity> |
+| Printable handout | <https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity/01_intro.pdf> |
+| Offline copy (ZIP) | <https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity/01_intro-offline.zip> |
 
 **The offline copy** unzips to a folder of plain files. Opening `index.html`
 directly will *not* work (the viewer fetches its trace over HTTP, which a
