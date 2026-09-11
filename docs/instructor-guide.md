@@ -5,7 +5,7 @@ to a URL you hand to students. Written for an instructor adopting the approach,
 with the reasoning behind each step rather than only the commands.
 
 This guide is self-contained. The reference implementation is the repository it
-lives in: <https://github.com/MatteoBoffa/L-LLM_-_Cybersecurity>.
+lives in: <https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity>.
 
 ---
 

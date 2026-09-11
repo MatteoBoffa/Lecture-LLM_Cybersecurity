@@ -22,7 +22,7 @@ from prepare_lecture import publish
 from setup_viewer import main as setup_viewer
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO_URL = "https://github.com/MatteoBoffa/L-LLM_-_Cybersecurity"
+REPO_URL = "https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity"
 FRONTEND = ROOT / "edtrace" / "frontend"
 TRACES = "var/traces"
 # The viewer resolves image paths relative to the page, so only the files the

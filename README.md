@@ -50,9 +50,9 @@ poking at it, which is the reason it is code and not slides.
 
 | What | Where |
 | --- | --- |
-| Interactive lecture | <https://matteoboffa.github.io/L-LLM_-_Cybersecurity/> |
-| Printable handout | <https://matteoboffa.github.io/L-LLM_-_Cybersecurity/01_intro.pdf> |
-| Offline copy (ZIP) | <https://matteoboffa.github.io/L-LLM_-_Cybersecurity/01_intro-offline.zip> |
+| Interactive lecture | <https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/> |
+| Printable handout | <https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/01_intro.pdf> |
+| Offline copy (ZIP) | <https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/01_intro-offline.zip> |
 
 **The offline copy** unzips to a folder of plain files. Opening `index.html`
 directly will *not* work (the viewer fetches its trace over HTTP, which a
@@ -89,8 +89,8 @@ You need **Python 3.12+**, [**uv**](https://docs.astral.sh/uv/getting-started/in
 
 ```sh
 # 1. Clone with the viewer submodule
-git clone --recurse-submodules https://github.com/MatteoBoffa/L-LLM_-_Cybersecurity.git
-cd L-LLM_-_Cybersecurity
+git clone --recurse-submodules https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity.git
+cd Lecture-LLM_Cybersecurity
 
 # 2. Python environment
 uv sync
