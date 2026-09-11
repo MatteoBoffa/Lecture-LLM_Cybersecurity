@@ -23,14 +23,25 @@ url.searchParams.set("hideEnv", "1"); // the variable panel is a floating overla
 url.searchParams.set("showNotes", "1"); // otherwise note() content is dropped
 url.searchParams.set("animate", "0"); // a handout shows everything, not just what a step reached
 
-await page.goto(url.toString(), { waitUntil: "load" });
-
-// The container only appears once the trace has been fetched and parsed.
-try {
-  await page.waitForSelector(".trace-viewer-container", { timeout: 15000 });
-} catch {
+// patches/edtrace-viewer.patch guards the MathJax race that used to leave the
+// page blank, but a cold CDN or a slow network can still stall the mount, and a
+// failed export costs more than a reload. Retrying is cheap insurance.
+const ATTEMPTS = 3;
+let loaded = false;
+for (let attempt = 1; attempt <= ATTEMPTS && !loaded; attempt++) {
+  await page.goto(url.toString(), { waitUntil: "load" });
+  try {
+    // "attached" rather than "visible": on a long lecture the container is
+    // thousands of pixels tall, which the visibility check handles poorly.
+    await page.waitForSelector(".trace-viewer-container", { state: "attached", timeout: 30000 });
+    loaded = true;
+  } catch {
+    if (attempt < ATTEMPTS) console.log(`Viewer did not mount (attempt ${attempt}/${ATTEMPTS}), retrying...`);
+  }
+}
+if (!loaded) {
   const message = await page.textContent("body");
-  throw new Error(`Viewer did not load trace "${lecture}": ${message?.trim()}`);
+  throw new Error(`Viewer did not load trace "${lecture}" after ${ATTEMPTS} attempts: ${message?.trim()}`);
 }
 
 // Images and plots resolve after React renders; wait for them or the PDF has gaps.

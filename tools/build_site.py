@@ -22,12 +22,31 @@ from prepare_lecture import publish
 from setup_viewer import main as setup_viewer
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO_URL = "https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity"
 FRONTEND = ROOT / "edtrace" / "frontend"
 TRACES = "var/traces"
 # The viewer resolves image paths relative to the page, so only the files the
 # trace actually mentions need to travel with it.
 IMAGE_PATTERN = re.compile(r"images/[A-Za-z0-9_./-]+")
+
+
+def repository_url() -> str:
+    """Where the offline bundle should tell a reader to find the sources.
+
+    Asking git beats hard-coding it: a repository rename silently invalidated a
+    literal here once already.
+    """
+    result = subprocess.run(
+        ["git", "remote", "get-url", "origin"],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+    remote = result.stdout.strip()
+    if result.returncode != 0 or not remote:
+        return "the course repository"
+    remote = remote.removesuffix(".git")
+    if remote.startswith("git@"):  # git@host:owner/name -> https://host/owner/name
+        host, _, path = remote[4:].partition(":")
+        remote = f"https://{host}/{path}"
+    return remote
 
 
 def record(lectures: list[str]) -> None:
@@ -113,7 +132,7 @@ def add_offline_launcher(out: Path, primary: str) -> None:
         "not a running Python program. It is all you need to follow the lecture.\n"
         "To ask the models something of your own, or to read the code behind the\n"
         "case studies (which is not in here), clone the repository:\n"
-        f"    {REPO_URL}\n"
+        f"    {repository_url()}\n"
     )
 
 
@@ -161,11 +180,15 @@ def export_pdf(out: Path, base: str, lectures: list[str], port: int) -> None:
     """Render each lecture to a printable handout, served from the built site."""
     with mounted_at_base(out, base) as (root, prefix), serving(root, port):
         for lecture in lectures:
-            subprocess.run(
+            result = subprocess.run(
                 ["node", "tools/export-pdf.mjs", lecture, f"http://127.0.0.1:{port}/{prefix}"],
-                check=True,
-                cwd=ROOT,
+                cwd=ROOT, capture_output=True, text=True,
             )
+            print(result.stdout, end="")
+            if result.returncode != 0:
+                if "playwright install" in result.stderr:
+                    raise SystemExit("Cannot render the handout: run `npx playwright install chromium` first.")
+                raise SystemExit(result.stderr.strip() or f"Rendering {lecture}.pdf failed.")
 
 
 def check(out: Path, base: str, port: int) -> None:
@@ -178,11 +201,19 @@ def check(out: Path, base: str, port: int) -> None:
         return
 
     with mounted_at_base(out, base) as (root, prefix), serving(root, port):
-        subprocess.run(
+        result = subprocess.run(
             ["node", "tools/check-site.mjs", f"http://127.0.0.1:{port}/{prefix}"],
-            check=True,
-            cwd=ROOT,
+            cwd=ROOT, capture_output=True, text=True,
         )
+    print(result.stdout, end="")
+    if result.returncode == 0:
+        return
+
+    # Missing browser binaries are a setup gap, not a broken bundle.
+    if "playwright install" in result.stderr:
+        print("Skipping browser check: Chromium is missing. Run `npx playwright install chromium`.")
+        return
+    raise SystemExit(result.stderr.strip() or "The built bundle failed its browser check.")
 
 
 def directory_size(path: Path) -> str:

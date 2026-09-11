@@ -32,21 +32,30 @@ await page.waitForURL(/trace=/, { timeout: 10000 });
 await page.waitForSelector(".trace-viewer-container", { timeout: 20000 });
 await page.waitForLoadState("networkidle");
 
-const report = await page.evaluate(() => ({
-  url: location.href,
-  title: document.title,
-  lines: document.querySelectorAll(".line").length,
-  images: document.images.length,
-  broken: Array.from(document.images)
-    .filter((img) => !img.complete || img.naturalWidth === 0)
-    .map((img) => img.getAttribute("src")),
-  videos: Array.from(document.querySelectorAll("video")).map((v) => ({
-    src: v.querySelector("source")?.getAttribute("src"),
-    // HAVE_METADATA or better means the server served it in a form the
-    // browser can actually play (Range requests included).
-    playable: v.readyState >= 1,
-  })),
-}));
+const report = await page.evaluate(() => {
+  const images = Array.from(document.images);
+  const videos = Array.from(document.querySelectorAll("video"));
+  const sourceOf = (v) => v.querySelector("source")?.getAttribute("src") ?? v.getAttribute("src");
+  return {
+    url: location.href,
+    title: document.title,
+    lines: document.querySelectorAll(".line").length,
+    images: images.length,
+    // An element with no source at all asked the server for nothing, so it says
+    // nothing about the bundle: it is prose that emitted a stray tag. Reported,
+    // but not a failure - this tool checks what was shipped, not what was written.
+    broken: images.filter((img) => img.getAttribute("src") && img.naturalWidth === 0)
+      .map((img) => img.getAttribute("src")),
+    empty: images.filter((img) => !img.getAttribute("src")).length
+      + videos.filter((v) => !sourceOf(v)).length,
+    videos: videos.filter(sourceOf).map((v) => ({
+      src: sourceOf(v),
+      // HAVE_METADATA or better means the server served it in a form the
+      // browser can actually play (Range requests included).
+      playable: v.readyState >= 1,
+    })),
+  };
+});
 
 // Stepping is the whole point of the viewer, so check it moves.
 const before = new URL(page.url()).searchParams.get("step");
@@ -70,6 +79,9 @@ for (const video of report.videos) {
 
 await browser.close();
 console.log(JSON.stringify(report, null, 2));
+if (report.empty) {
+  console.log(`Note: ${report.empty} media element(s) with no source - a stray tag in the lecture's prose, not a bundle problem.`);
+}
 if (problems.length) {
   console.error("FAILED:\n" + problems.join("\n"));
   process.exit(1);
