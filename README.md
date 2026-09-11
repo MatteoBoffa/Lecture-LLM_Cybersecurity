@@ -193,6 +193,13 @@ git -C edtrace diff > patches/edtrace-viewer.patch
 
 ---
 
+## Running a course like this
+
+[`docs/instructor-guide.md`](docs/instructor-guide.md) is the whole workflow in
+one file, for another instructor: course setup, writing a lecture, recording it,
+presenting it, and publishing the static site, handout and offline bundle —
+including the traps that only surface once you publish.
+
 ## Credits
 
 Lecture by **Matteo Boffa** (Politecnico di Torino).
