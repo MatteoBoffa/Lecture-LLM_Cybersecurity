@@ -8,6 +8,44 @@ models, not screenshots. The viewer is [edtrace](https://github.com/percyliang/e
 
 ---
 
+## Which one do you need?
+
+The lecture ships in two forms, and they are not the same thing.
+
+**A recording** (§1) — the published page and the ZIP both serve
+`var/traces/01_intro.json`: the source of `01_intro.py` plus **802 recorded
+steps**, each carrying the variable values and rendered output from the moment
+the lecture was run. Stepping through it replays that recording. There is no
+Python behind the page, only static files.
+
+**The program** (§2) — the lecture itself, which you execute.
+
+| | recording (§1) | clone (§2) |
+| --- | --- | --- |
+| Follow the lecture, step by step | ✅ | ✅ (same trace) |
+| Print it / read it offline | ✅ | ✅ |
+| Read the case-study implementations | ❌ *not included* | ✅ |
+| Ask the models something I choose | ❌ | ✅ |
+| Import the code into my own notebook | ❌ | ✅ |
+
+Two things are worth spelling out.
+
+*The recording cannot answer a question it was not asked.* When the lecture
+calls `ask(chat, question)` or `tactics_of(logprecis, session)`, the page shows
+the answer for the input chosen while recording. Your own SSH session, your own
+prompt, is a step that does not exist in the file — producing it means loading
+the models and running the program.
+
+*The recording does not contain the case studies.* Every lab call is marked
+`@stepover`, so the trace carries `01_intro.py` and nothing else. If you want to
+see how `fingerprints_of` works, or `from logprecis_lab import fingerprints_of`
+in a notebook of your own, you need the repository.
+
+**If you are here to follow the lecture, §1 is enough — and simpler.** §2 is for
+poking at it, which is the reason it is code and not slides.
+
+---
+
 ## 1. Follow the lecture (nothing to install)
 
 | What | Where |
@@ -68,6 +106,11 @@ npm --prefix=edtrace/frontend run dev
 ```
 
 Then go to <http://localhost:5173/?trace=01_intro>.
+
+Steps 1-3 and 6 alone already give you the recorded lecture in the viewer, with
+no model downloads: `var/traces/01_intro.json` is in the repository. **Step 4 is
+what makes the lecture yours** - it re-executes `01_intro.py` and records a new
+trace, so any input you change shows its real output.
 
 **Step 4 downloads models** (`distilbert-base-uncased`,
 `SmartDataPolito/logprecis`, `Qwen/Qwen2.5-0.5B-Instruct`) — roughly 2 GB and a

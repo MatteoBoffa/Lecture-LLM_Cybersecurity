@@ -22,6 +22,7 @@ from prepare_lecture import publish
 from setup_viewer import main as setup_viewer
 
 ROOT = Path(__file__).resolve().parent.parent
+REPO_URL = "https://github.com/MatteoBoffa/L-LLM_-_Cybersecurity"
 FRONTEND = ROOT / "edtrace" / "frontend"
 TRACES = "var/traces"
 # The viewer resolves image paths relative to the page, so only the files the
@@ -106,7 +107,13 @@ def add_offline_launcher(out: Path, primary: str) -> None:
         "call, 'u' steps out, 'N' toggles the instructor notes, 'E' the variable\n"
         "panel, 'A' the reveal animation, 'g' loads another trace.\n\n"
         f"{primary}.pdf, next to this file, is the same lecture as a printable\n"
-        "handout (if it was built).\n"
+        "handout (if it was built).\n\n"
+        "What this is, exactly: a recording. It holds the lecture's source and\n"
+        "every step that was executed, with the values and output of that run -\n"
+        "not a running Python program. It is all you need to follow the lecture.\n"
+        "To ask the models something of your own, or to read the code behind the\n"
+        "case studies (which is not in here), clone the repository:\n"
+        f"    {REPO_URL}\n"
     )
 
 
