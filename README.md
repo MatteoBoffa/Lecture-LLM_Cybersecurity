@@ -46,17 +46,8 @@ poking at it, which is the reason it is code and not slides.
 
 ---
 
-## 1. Follow the lecture (nothing to install)
-
-| What | Where |
-| --- | --- |
-| Interactive lecture | <https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity> |
-| Printable handout | <https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity/01_intro.pdf> |
-| Offline copy (ZIP) | <https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity/01_intro-offline.zip> |
-
-**The offline copy** unzips to a folder of plain files. Opening `index.html`
-directly will *not* work (the viewer fetches its trace over HTTP, which a
-`file://` page may not do). Instead run, from inside the folder:
+## 1. Follow the lecture 
+Download the repo and run:
 
 ```sh
 python3 serve.py
