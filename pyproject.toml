@@ -1,0 +1,25 @@
+[project]
+name = "lectures"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Matteo Boffa", email = "boffa.matteo.97@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "edtrace>=0.1.15",
+    "transformers>=5.15.1",
+]
+
+[project.scripts]
+lectures = "lectures:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.black]
+# edtrace replaces a source line with its rendering only at the line where the
+# step was recorded, so a wrapped text(...) call leaks its string as raw source.
+line-length = 400

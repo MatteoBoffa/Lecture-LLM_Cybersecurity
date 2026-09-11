@@ -1,0 +1,58 @@
+name: Publish lecture
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push supersedes an in-flight one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Playwright renders the PDF handout; only Chromium is needed.
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      # --skip-trace uses the committed trace, so CI never downloads the models.
+      # Also smoke-tests both bundles in a real browser before they ship.
+      - name: Build site, handout and offline archive
+        run: >
+          python tools/build_site.py 01_intro
+          --skip-trace --pdf --zip
+          --base "/${{ github.event.repository.name }}/"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

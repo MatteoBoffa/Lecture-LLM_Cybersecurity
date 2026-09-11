@@ -1,0 +1,63 @@
+diff --git a/frontend/src/TraceViewer.jsx b/frontend/src/TraceViewer.jsx
+index 50cd9ec..004dc36 100644
+--- a/frontend/src/TraceViewer.jsx
++++ b/frontend/src/TraceViewer.jsx
+@@ -15,7 +15,9 @@ function TraceViewer() {
+   const targetLineNumber = parseInt(urlParams.get('line')) || null;  // Line number to highlight
+   const targetStepIndex = parseInt(urlParams.get('step')) || null;  // Step index to highlight
+   const rawMode = urlParams.get('raw');
+-  const animateMode = urlParams.get('animate');
++  // Default on: lecture mode is the common case, so ?animate=0 opts out
++  // rather than ?animate=1 opting in.
++  const animateMode = urlParams.get('animate') !== '0';
+   const hideEnv = urlParams.get('hideEnv');
+   const showNotes = urlParams.get('showNotes');
+   const navigate = useNavigate();
+@@ -322,7 +324,7 @@ function toggleRawMode({rawMode, navigate}) {
+ 
+ function toggleAnimateMode({animateMode, navigate}) {
+   const newAnimateMode = !animateMode;
+-  updateUrlParams({ animate: newAnimateMode ? "1" : null }, navigate);
++  updateUrlParams({ animate: newAnimateMode ? null : "0" }, navigate);
+ }
+ 
+ function toggleHideEnv({hideEnv, navigate}) {
+@@ -793,7 +795,12 @@ function MarkdownRenderer({ content, style }) {
+   // Trigger MathJax to render
+   // TODO: this flickers every time we rerender (step)
+   useEffect(() => {
+-    if (renderedContent && window.MathJax) {
++    // index.html defines window.MathJax as a config object before the library
++    // loads async, so the global exists long before typeset() does.  In a
++    // production build the bundle wins that race and the unguarded call threw,
++    // taking the whole viewer down with it.  MathJax typesets the document
++    // itself once it finishes loading, so skipping early calls loses nothing.
++    if (renderedContent && typeof window.MathJax?.typeset === 'function') {
+       window.MathJax.typeset();
+     }
+   }, [renderedContent]);  // If put this, then don't update; otherwise too slow
+diff --git a/frontend/src/index.css b/frontend/src/index.css
+index 5b699c5..9a0e876 100644
+--- a/frontend/src/index.css
++++ b/frontend/src/index.css
+@@ -50,6 +50,20 @@ button {
+   word-wrap: break-word;
+ }
+ 
++/* Raw Python lines sit on a light panel with a left rail, so code reads as a
++   block distinct from the rendered prose.  Lines that were replaced by a
++   rendering, and blank lines, are deliberately left alone. */
++.line:not(:has(.renderings)):has(> span > .code-container:not(:empty)) {
++  background-color: #f6f8fa;
++  box-shadow: inset 3px 0 0 #c9d3de;
++}
++
++/* Re-assert the cursor highlight: it has to win over the code panel above. */
++.line.current-line:not(:has(.renderings)):has(> span > .code-container:not(:empty)),
++.line.current-line {
++  background-color: #FFFFCC;
++}
++
+ .current-line {
+   background-color: #FFFFCC;
+ }
