@@ -33,6 +33,7 @@ jobs:
         run: |
           python display.py --port 8000 --no-browser &
           for _ in $(seq 1 30); do curl -sf http://127.0.0.1:8000/ >/dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:8000/ >/dev/null || { echo "display.py never served anything."; exit 1; }
           node tools/check-site.mjs http://127.0.0.1:8000/
 
   documented-path:
@@ -53,10 +54,13 @@ jobs:
       - run: uv run python tools/setup_viewer.py
       - run: npm ci && npx playwright install --with-deps chromium
 
+      # --host is not optional: Vite otherwise binds to "localhost", which on a
+      # runner resolves to ::1, and every request to 127.0.0.1 is refused.
       - name: Start the dev server and load the lecture
         run: |
-          npm --prefix=edtrace/frontend run dev -- --port 5173 --strictPort &
+          npm --prefix=edtrace/frontend run dev -- --port 5173 --strictPort --host 127.0.0.1 &
           for _ in $(seq 1 60); do curl -sf http://127.0.0.1:5173/ >/dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:5173/ >/dev/null || { echo "The dev server never came up."; exit 1; }
           node tools/check-site.mjs http://127.0.0.1:5173/ 01_intro
 
   links:
