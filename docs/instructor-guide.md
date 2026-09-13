@@ -225,7 +225,8 @@ What `build_site.py` does, in order, and why each step exists:
    error instead of a surprise in class.
 6. **Inject a landing redirect**, so opening the site lands on the lecture rather
    than on the viewer's "type a trace name" prompt.
-7. **Add `serve.py` and a README** for the offline bundle.
+7. **Add `display.py` and a README** for the offline bundle - the same command
+   as in the repository root, so there is only one to remember.
 8. **Check it in a browser** (§7) before anything is packaged.
 9. **Render the PDF**, then copy it into the site so it is downloadable.
 10. **Zip the bundle** and copy the archive into the site too.
@@ -247,7 +248,7 @@ The interactive page, plus a ZIP whose `README.txt` says, in full:
 
 > Opening `index.html` directly does not work: the viewer fetches the trace over
 > HTTP, which a `file://` page is not allowed to do. Instead run
-> `python3 serve.py` from this folder.
+> `python3 display.py` from this folder.
 
 Any Python 3 works — verified on macOS's stock 3.9. No uv, no Node, no virtual
 environment. That constraint is the whole point of the offline bundle: a student
@@ -382,7 +383,7 @@ students will run, so a passing check means something.
 | Handout nearly blank | missing `animate=0`; cloaked lines render at 20% opacity |
 | Handout clipped at the right edge | `.lines-panel` reserves 1000px and scrolls; override it in the print CSS so content reflows |
 | `npm warn allow-scripts` on npm 11+ | postinstall scripts are blocked by default; Vite still builds, because esbuild ships per-platform packages |
-| A student's `file://` page shows nothing | the viewer fetches its trace over HTTP; they need `serve.py` or `display.py` |
+| A student's `file://` page shows nothing | the viewer fetches its trace over HTTP; they need `display.py` |
 | A colleague clones it and nothing works | the README led with a toolchain, or with a URL that is not live yet |
 
 ---

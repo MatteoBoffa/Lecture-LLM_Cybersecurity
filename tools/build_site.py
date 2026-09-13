@@ -1,7 +1,7 @@
 """Build the static bundle of a lecture: the edtrace viewer plus its trace.
 
 The result is a plain directory of files (``site/`` by default) that can be
-served by any static host - GitHub Pages, or the little ``serve.py`` that ships
+served by any static host - GitHub Pages, or the little ``display.py`` that ships
 inside the bundle for students who work offline.
 """
 
@@ -113,13 +113,13 @@ def add_landing_redirect(out: Path, primary: str) -> None:
 
 def add_offline_launcher(out: Path, primary: str) -> None:
     """The viewer fetches its trace, so file:// is not enough - ship a server."""
-    shutil.copy(Path(__file__).parent / "offline_serve.py", out / "serve.py")
+    shutil.copy(Path(__file__).parent / "offline_serve.py", out / "display.py")
     (out / "README.txt").write_text(
         "LLMs and Cybersecurity - offline copy of the lecture\n"
         "===================================================\n\n"
         "Opening index.html directly does not work: the viewer fetches the trace\n"
         "over HTTP, which a file:// page is not allowed to do. Instead run\n\n"
-        "    python3 serve.py\n\n"
+        "    python3 display.py\n\n"
         "from this folder. It starts a local web server and opens the lecture in\n"
         f"your browser (http://localhost:8000/?trace={primary}).\n\n"
         "Navigation: right/left arrow step forward/back, shift+arrows step over a\n"
@@ -234,7 +234,7 @@ def make_offline_archive(out: Path, lectures: list[str], base: str, port: int, v
     """Pack a copy that works when served from a server root.
 
     The hosted site may be built for a subpath (`/Lectures/`), and its absolute
-    asset URLs would 404 under the bundle's own `serve.py`. So the archive gets
+    asset URLs would 404 under the bundle's own `display.py`. So the archive gets
     its own root-based build rather than a copy of the hosted one.
     """
     if base.strip("/") == "":

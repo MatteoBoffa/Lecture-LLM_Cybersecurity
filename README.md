@@ -58,7 +58,7 @@ Open it in your browser. Nothing to install, nothing to download:
 | Offline copy, works with no internet | [01_intro-offline.zip](https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/01_intro-offline.zip) |
 
 The ZIP unpacks to a folder of plain files: open a terminal inside it and run
-`python3 serve.py`.
+`python3 display.py` — the same command as in the repository.
 
 ### Or run it from the repository
 
@@ -71,8 +71,7 @@ python3 display.py
 ```
 
 Your browser opens the lecture. That is the whole procedure. On Windows, use
-`py display.py`; `python3 serve.py` does the same thing, if that is the name
-your fingers reach for.
+`py display.py`.
 
 **Any Python 3 works** — tested on the 3.9 that ships with macOS. No uv, no
 Node.js, no virtual environment, no network, no build step: the viewer in
@@ -199,7 +198,7 @@ asset URLs match the published path. Enable it once under
 
 The offline archive gets its own root-based build, because the hosted site's
 absolute asset URLs (`/<repo>/assets/…`) would not resolve under the bundle's
-own `serve.py`.
+own `display.py`.
 
 ### Changing the viewer
 

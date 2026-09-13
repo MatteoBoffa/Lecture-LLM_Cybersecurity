@@ -19,6 +19,11 @@ node_modules/
 site/*.pdf
 site/*-offline.zip
 
+# The offline archive carries its own launcher and notes; the committed viewer
+# is served by display.py at the repository root and does not need a copy.
+site/display.py
+site/README.txt
+
 # Private teaching notes
 offline_notes/
 

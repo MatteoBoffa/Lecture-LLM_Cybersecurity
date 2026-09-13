@@ -1,7 +1,7 @@
 [project]
 name = "lectures"
 version = "0.1.0"
-description = "Add your description here"
+description = "LLMs and Cybersecurity - an executable lecture for Modelli per l'IA, Politecnico di Torino"
 readme = "README.md"
 authors = [
     { name = "Matteo Boffa", email = "boffa.matteo.97@gmail.com" }
@@ -12,12 +12,10 @@ dependencies = [
     "transformers>=5.15.1",
 ]
 
-[project.scripts]
-lectures = "lectures:main"
-
-[build-system]
-requires = ["uv_build>=0.12.5,<0.13.0"]
-build-backend = "uv_build"
+[tool.uv]
+# A set of lectures, not a library: uv installs the dependencies and does not
+# try to build this directory as a package.
+package = false
 
 [tool.black]
 # edtrace replaces a source line with its rendering only at the line where the
