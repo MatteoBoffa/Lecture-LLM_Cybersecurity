@@ -382,7 +382,8 @@ students will run, so a passing check means something.
 | Handout nearly blank | missing `animate=0`; cloaked lines render at 20% opacity |
 | Handout clipped at the right edge | `.lines-panel` reserves 1000px and scrolls; override it in the print CSS so content reflows |
 | `npm warn allow-scripts` on npm 11+ | postinstall scripts are blocked by default; Vite still builds, because esbuild ships per-platform packages |
-| A student's `file://` page shows nothing | the viewer fetches its trace over HTTP; they need `serve.py` |
+| A student's `file://` page shows nothing | the viewer fetches its trace over HTTP; they need `serve.py` or `display.py` |
+| A colleague clones it and nothing works | the README led with a toolchain, or with a URL that is not live yet |
 
 ---
 

@@ -46,14 +46,29 @@ poking at it, which is the reason it is code and not slides.
 
 ---
 
-## 1. Follow the lecture 
+## 1. Follow the lecture
+
 Download the repo and run:
 
 ```sh
-python3 serve.py
+git clone --recurse-submodules https://github.com/MatteoBoffa/Lecture-LLM_Cybersecurity.git
+cd Lecture-LLM_Cybersecurity
+python3 display.py
 ```
 
-It starts a small local server and opens the lecture in your browser.
+Your browser opens the lecture. That is the whole procedure. On Windows, use
+`py display.py`; `python3 serve.py` does the same thing, if that is the name
+your fingers reach for.
+
+**Any Python 3 works** — tested on the 3.9 that ships with macOS. No uv, no
+Node.js, no virtual environment, no network, no build step: the viewer in
+`site/` is prebuilt and committed, and the lecture itself is a recorded trace.
+
+If port 8000 is busy, `python3 display.py --port 8001`.
+
+> Opening `site/index.html` by double-clicking does **not** work: the viewer
+> fetches its trace over HTTP, which a `file://` page is not allowed to do.
+> That is exactly what `display.py` is for.
 
 ### Getting around the viewer
 

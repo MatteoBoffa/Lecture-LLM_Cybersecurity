@@ -10,10 +10,14 @@ wheels/
 .venv
 
 # Build outputs (regenerate with tools/build_site.py)
-site/
-site.zip
 pdf/
+site.zip
 node_modules/
+
+# site/ IS committed: it is the prebuilt viewer that makes `python3 display.py`
+# work with no toolchain at all. Its heavy downloads are not.
+site/*.pdf
+site/*-offline.zip
 
 # Private teaching notes
 offline_notes/

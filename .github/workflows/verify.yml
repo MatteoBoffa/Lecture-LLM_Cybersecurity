@@ -1,0 +1,68 @@
+name: Verify a fresh clone
+
+# The lecture is handed to students and colleagues as a repository, so what has
+# to keep working is the *clone*, not the working tree it was built in.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  zero-install:
+    name: git clone && python3 display.py
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"   # the oldest interpreter a student is likely to have
+
+      - name: The prebuilt viewer must match the sources
+        run: python tools/check_committed_site.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: Serve it exactly as a newcomer would, then load it in a browser
+        run: |
+          python display.py --port 8000 --no-browser &
+          for _ in $(seq 1 30); do curl -sf http://127.0.0.1:8000/ >/dev/null && break; sleep 1; done
+          node tools/check-site.mjs http://127.0.0.1:8000/
+
+  documented-path:
+    name: The README's reproduction steps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Step 4 of the README (re-recording) is deliberately skipped: it
+      # downloads ~2 GB of models. Everything else runs verbatim.
+      - run: uv sync
+      - run: uv run python tools/setup_viewer.py
+      - run: npm ci && npx playwright install --with-deps chromium
+
+      - name: Start the dev server and load the lecture
+        run: |
+          npm --prefix=edtrace/frontend run dev -- --port 5173 --strictPort &
+          for _ in $(seq 1 60); do curl -sf http://127.0.0.1:5173/ >/dev/null && break; sleep 1; done
+          node tools/check-site.mjs http://127.0.0.1:5173/ 01_intro
+
+  links:
+    name: No dead links in the docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every relative link must point at a file that exists
+        run: python tools/check_links.py
