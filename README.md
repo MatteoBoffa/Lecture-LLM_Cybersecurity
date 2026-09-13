@@ -48,6 +48,20 @@ poking at it, which is the reason it is code and not slides.
 
 ## 1. Follow the lecture
 
+Open it in your browser. Nothing to install, nothing to download:
+
+### 👉 <https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/>
+
+| Also published there | |
+| --- | --- |
+| Printable handout | [01_intro.pdf](https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/01_intro.pdf) |
+| Offline copy, works with no internet | [01_intro-offline.zip](https://matteoboffa.github.io/Lecture-LLM_Cybersecurity/01_intro-offline.zip) |
+
+The ZIP unpacks to a folder of plain files: open a terminal inside it and run
+`python3 serve.py`.
+
+### Or run it from the repository
+
 Download the repo and run:
 
 ```sh
