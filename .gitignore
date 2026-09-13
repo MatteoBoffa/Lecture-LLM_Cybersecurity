@@ -35,6 +35,3 @@ var/*
 !var/traces
 var/traces/*
 !var/traces/[0-9][0-9]_*.json
-
-# Superseded by the MP4 the lecture actually uses, and 23 MB on its own
-images/Huawei_usecase.gif
