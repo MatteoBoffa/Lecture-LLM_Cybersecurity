@@ -10,7 +10,7 @@ I designed this lecture as a **Python program** following the framework of [edtr
 
 The lecture ships in two forms:
 
-**A recording** (§1) — the published page serves
+**A recording** (§1) — the published page and the ZIP serve
 `var/traces/01_intro.json`: the source is `01_intro.py`, and it contains **802 recorded
 steps**, each carrying the variable values and rendered output from the moment
 the lecture was run. Stepping through it replays that recording. There is no
