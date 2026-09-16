@@ -213,10 +213,25 @@ ordinary comments, and leaves a `raise NotImplementedError("your turn")` where t
 answer was, so the stub still parses and fails loudly instead of quietly returning
 nothing. Outputs are cleared too - a student should see their own.
 
-The answers stay off GitHub: `solutions/` is gitignored, so back them up
-yourself. To publish them after the class, delete that line from the root
-`.gitignore`. (A separate branch works as well, but `make_stubs.py` reads the
-solutions off disk, so you would be switching branches every time you regenerate.)
+The solutions live on the `with_solutions` branch. `main` carries only the
+students' copies, because it is what students clone. `make_stubs.py` reads the
+solutions off disk, so the loop is:
+
+```sh
+git switch with_solutions
+# edit labs/<lab>/solutions/*.ipynb, then:
+uv run python labs/make_stubs.py
+git commit -am "..."
+
+git switch main                                   # solutions/ leaves the disk here
+git checkout with_solutions -- ':(glob)labs/*/*.ipynb'   # the students' copies only
+git commit -m "..."
+
+git switch with_solutions && git merge main       # keep the two in step
+```
+
+Never merge `with_solutions` into `main`: that would ship the answers to every
+student who clones the repository.
 
 | File                             |                                                    |
 | -------------------------------- | -------------------------------------------------- |
