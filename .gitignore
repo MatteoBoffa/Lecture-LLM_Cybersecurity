@@ -43,6 +43,3 @@ labs/data/
 labs/cybersleuth/evidence/
 # ...and the agent the students write themselves in Part 5.
 labs/cybersleuth/.opencode/agents/sleuth-offline.md
-
-# The worked labs, answers included, live on the with_solutions branch only.
-labs/*/solutions/
