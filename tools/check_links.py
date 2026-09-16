@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DOCS = ["README.md", *(str(p.relative_to(ROOT)) for p in (ROOT / "docs").glob("*.md"))]
+DOCS = ["README.md", *(str(p.relative_to(ROOT)) for p in (*(ROOT / "docs").glob("*.md"), *(ROOT / "labs").rglob("*.md")))]
 LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 
 

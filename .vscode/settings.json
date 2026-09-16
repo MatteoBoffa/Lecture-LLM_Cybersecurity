@@ -1,0 +1,6 @@
+{
+  // The labs run in the uv-managed environment at the repo root
+  // (`uv sync --group labs`), so notebooks pick it up without asking.
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvInCurrentTerminal": true
+}

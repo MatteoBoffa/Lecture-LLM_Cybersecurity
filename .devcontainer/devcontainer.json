@@ -1,0 +1,15 @@
+{
+  // The labs, ready to run in a GitHub Codespace: uv, the lab dependencies,
+  // tshark and opencode.  Nothing else in the repository needs it.
+  "name": "LLMs and Cybersecurity - labs",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "ms-toolsai.jupyter"],
+      "settings": {
+        "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python"
+      }
+    }
+  }
+}

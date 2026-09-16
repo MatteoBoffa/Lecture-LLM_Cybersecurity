@@ -149,11 +149,19 @@ you.
 | `autopenbench_lab.py`, `cybersleuth_lab.py` | 🐢 slow-thinking case studies                          |
 | `edtrace/`                                  | the viewer, as an upstream submodule                   |
 | `patches/edtrace-viewer.patch`              | local viewer changes this course depends on            |
+| `labs/`                                     | 🧑‍💻 hands-on lab notebooks (see `labs/README.md`)       |
 | `tools/`                                    | build the trace, the static site, the handout          |
 | `var/traces/`                               | recorded traces (the lecture, ready to view)           |
 
 The case-study modules are ordinary Python: run them, change the inputs, break
 them. That is the point of shipping the lecture as code.
+
+In [`labs/`](labs/README.md) I included two hands-on labs: in the first, I provide two
+notebooks that take the LogPrécis case study apart. We measure LogPrécis' performance on the authors'
+held-out data, and run the characterisation over 10 000 real honeypot sessions. In the second, we explore
+CyberSleuth's performance and familiarise with the agentic framework.
+The LogPrécis notebooks need `uv sync --group labs`, or nothing at all if you open them in Colab.
+The CyberSleuth one also needs `tshark`, `opencode` and a GitHub Copilot login, and runs best in a GitHub Codespace.
 
 ---
 

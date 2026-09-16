@@ -35,3 +35,15 @@ var/*
 !var/traces
 var/traces/*
 !var/traces/[0-9][0-9]_*.json
+
+# Lab data: downloaded on demand by labs/labs_lib.py, never committed.
+labs/data/
+
+# The CyberSleuth lab's evidence, downloaded on demand like the rest.
+labs/cybersleuth/evidence/
+# ...and the agent the students write themselves in Part 5.
+labs/cybersleuth/.opencode/agents/sleuth-offline.md
+
+# The worked labs, answers included: off GitHub until after the class.
+# Delete this line to publish them.
+labs/*/solutions/

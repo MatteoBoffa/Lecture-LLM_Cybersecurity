@@ -12,6 +12,18 @@ dependencies = [
     "transformers>=5.15.1",
 ]
 
+[dependency-groups]
+# The hands-on labs only.  They are not part of the lecture, and `uv sync`
+# without `--group labs` still installs just what 01_intro.py needs.
+labs = [
+    "ipykernel>=6.29",
+    "jupyterlab>=4.2",
+    "matplotlib>=3.9",
+    "pandas>=2.2",
+    "pyarrow>=17",
+    "scikit-learn>=1.5",
+]
+
 [tool.uv]
 # A set of lectures, not a library: uv installs the dependencies and does not
 # try to build this directory as a package.
