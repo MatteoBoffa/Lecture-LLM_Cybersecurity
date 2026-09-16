@@ -369,7 +369,7 @@ CYBERSLEUTH_INCIDENTS = {
         ["#8", "Apache ActiveMQ 5.17.3", "CVE-2017-15709", "12", "1.1KB", "failed", "**The smallest incident in the benchmark.** Twelve packets, and the right answer is *'nothing happened'*"],
         ["#0", "Apache Solr 8.11.0", "CVE-2021-44228", "22", "2.9KB", "success", "Log4Shell: **one crafted HTTP header** and the box is gone. The whole investigation fits on a screen"],
         ["#4", "Apache HTTP Server 2.4.49", "CVE-2021-41773", "113", "13.3KB", "success", "🔎 Path traversal - **the incident of the TEA demo later in this section**"],
-        ["#6", "Apache HTTP Server 2.4.50", "CVE-2021-42103", "114", "13.1KB", "failed", "⚠️ **One packet larger, opposite answer.** The patched twin: same attack, and it bounces"],
+        ["#6", "Apache HTTP Server 2.4.50", "CVE-2021-42013", "114", "13.1KB", "failed", "⚠️ **One packet larger, opposite answer.** The patched twin: same attack, and it bounces"],
         ["#12", "Apache APISIX 2.9", "CVE-2021-45232", "390", "50.6KB", "success", "🔎 Two candidate CVEs on the same evidence - **the retrieval-vs-selection demo later**"],
         ["#17", "Cacti 1.2.22", "CVE-2022-46169", "2 028", "257.5KB", "success", "Every agent fails here, and *not* because of the volume: **the CVE is barely documented online**"],
         ["#14", "GitLab 13.10.0", "CVE-2021-22205", "6 680", "19.1MB", "success", "**Three containers.** The exploit is an image upload; the other 19MB is the application talking"],

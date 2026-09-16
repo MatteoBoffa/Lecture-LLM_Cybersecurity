@@ -51,7 +51,7 @@ INCIDENTS = (
     Incident(3, "Grafana", "8.2.6", "CVE-2021-43798", 1, True, 276, 721_730),
     Incident(4, "Apache HTTP Server", "2.4.49", "CVE-2021-41773", 1, True, 113, 13_300),
     Incident(5, "SaltStack", "2019.2.3", "CVE-2020-11651", 1, True, 32, 2_420),
-    Incident(6, "Apache HTTP Server", "2.4.50", "CVE-2021-42103", 1, False, 114, 13_060),
+    Incident(6, "Apache HTTP Server", "2.4.50", "CVE-2021-42013", 1, False, 114, 13_060),
     Incident(7, "Apache ActiveMQ", "5.14.2", "CVE-2017-15709", 1, True, 18, 1_540),
     Incident(8, "Apache ActiveMQ", "5.17.3", "CVE-2017-15709", 1, False, 12, 1_080),
     Incident(9, "CouchDB", "3.2.1", "CVE-2022-24706", 1, True, 35, 2_610),
